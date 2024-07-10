@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map } from "../map";
 import styles from "./index.module.css";
 import axios from "axios";
 
 import landing from "./assets/landing.png";
-import { ArrowRight, SwapSvg } from "../../assets/svg";
-
-import starting from "/starting.png";
-import ending from "/ending.png";
+import { ArrowRight } from "../../assets/svg";
+import { Popup } from "./components/Popup";
+import { RouteSettings } from "./components/RouteSettings";
 
 type Props = {};
+
+interface LocationData {
+  startAddress: string;
+  endAddress: string;
+  startCoords: { lat: number; lng: number } | null;
+  endCoords: { lat: number; lng: number } | null;
+}
 
 export const Home: React.FC<Props> = (_props) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -23,11 +29,37 @@ export const Home: React.FC<Props> = (_props) => {
     lat: number;
     lng: number;
   } | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [startSuggestions, setStartSuggestions] = useState<string[]>([]);
   const [endSuggestions, setEndSuggestions] = useState<string[]>([]);
+  const [step, setStep] = useState("one");
 
   const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
+
+  useEffect(() => {
+    saveDataToLocalStorage();
+  }, [startCoords, endCoords]);
+
+  const saveDataToLocalStorage = () => {
+    const data: LocationData = {
+      startAddress,
+      endAddress,
+      startCoords,
+      endCoords,
+    };
+
+    const savedData = JSON.parse(localStorage.getItem("locationData") || "[]");
+    savedData.push(data);
+    localStorage.setItem("locationData", JSON.stringify(savedData));
+  };
+
+  const clearData = () => {
+    localStorage.removeItem("locationData");
+    setStartAddress("");
+    setEndAddress("");
+    setStartCoords(null);
+    setEndCoords(null);
+    setStep("one");
+  };
 
   const handleGeocode = async (
     address: string,
@@ -47,13 +79,10 @@ export const Home: React.FC<Props> = (_props) => {
       if (response.data.results.length > 0) {
         const { lat, lng } = response.data.results[0].geometry;
         setCoords({ lat, lng });
-        setError(null);
       } else {
-        setError("Address not found");
         setCoords(null);
       }
     } catch (error) {
-      setError("Error fetching coordinates");
       setCoords(null);
     }
   };
@@ -135,92 +164,26 @@ export const Home: React.FC<Props> = (_props) => {
           </button>
         </div>
       )}
-
-      {showPopup && (
-        <div className={styles.addlocationPopup}>
-          <div className={styles.addlocation}>
-            <span onClick={togglePopup} className={styles.closeButton}></span>
-            <h2>Add locations</h2>
-            <div className={styles.inputbox}>
-              <img src={starting} alt="" />
-              <input
-                type="text"
-                value={startAddress}
-                onChange={(e) =>
-                  handleAddressChange(e, setStartAddress, setStartSuggestions)
-                }
-                placeholder="Starting Point"
-              />
-            </div>
-            <button className={styles.swapper} onClick={handleSwap}>
-              <SwapSvg />
-            </button>
-            <div className={styles.inputbox}>
-              <img src={ending} alt="" />
-              <input
-                type="text"
-                value={endAddress}
-                onChange={(e) =>
-                  handleAddressChange(e, setEndAddress, setEndSuggestions)
-                }
-                placeholder="Ending Point"
-              />
-            </div>{" "}
-            {startSuggestions.length > 0 && (
-              <div className={styles.suggestions}>
-                {startSuggestions.map((suggestion, index) => (
-                  <p
-                    key={index}
-                    onClick={() =>
-                      handleSuggestionClick(
-                        suggestion,
-                        setStartAddress,
-                        setStartSuggestions,
-                        setStartCoords
-                      )
-                    }
-                  >
-                    {suggestion}
-                  </p>
-                ))}
-              </div>
-            )}
-            {endSuggestions.length > 0 && (
-              <div className={styles.suggestions}>
-                {endSuggestions.map((suggestion, index) => (
-                  <p
-                    key={index}
-                    onClick={() =>
-                      handleSuggestionClick(
-                        suggestion,
-                        setEndAddress,
-                        setEndSuggestions,
-                        setEndCoords
-                      )
-                    }
-                  >
-                    {suggestion}
-                  </p>
-                ))}
-              </div>
-            )}
-            <div>
-              {startCoords && (
-                <p>
-                  Starting Latitude: {startCoords.lat}, Longitude:{" "}
-                  {startCoords.lng}
-                </p>
-              )}
-              {endCoords && (
-                <p>
-                  Ending Latitude: {endCoords.lat}, Longitude: {endCoords.lng}
-                </p>
-              )}
-              {error && <p>{error}</p>}
-            </div>
-          </div>
-        </div>
+      {startCoords?.lat && endCoords?.lat && (
+        <RouteSettings step={step} setStep={setStep} clearData={clearData} />
       )}
+      <Popup
+        showPopup={showPopup}
+        togglePopup={togglePopup}
+        startAddress={startAddress}
+        setStartAddress={setStartAddress}
+        endAddress={endAddress}
+        setEndAddress={setEndAddress}
+        setStartCoords={setStartCoords}
+        setEndCoords={setEndCoords}
+        handleSwap={handleSwap}
+        handleAddressChange={handleAddressChange}
+        handleSuggestionClick={handleSuggestionClick}
+        startSuggestions={startSuggestions}
+        endSuggestions={endSuggestions}
+        setStartSuggestions={setStartSuggestions}
+        setEndSuggestions={setEndSuggestions}
+      />
     </div>
   );
 };
