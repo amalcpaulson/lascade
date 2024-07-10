@@ -1,27 +1,53 @@
-import { Marker, Popup } from "react-leaflet";
+import React from "react";
+import {
+  Marker,
+  Popup,
+  MapContainer,
+  TileLayer,
+  Polyline,
+} from "react-leaflet";
+
 import "leaflet/dist/leaflet.css";
 
-import { MapContainer, TileLayer } from "react-leaflet";
+type Props = {
+  startLat: number;
+  startLong: number;
+  endLat: number;
+  endLong: number;
+};
 
-export const Map = () => {
-  const position = [57.505, -5.09];
 
+export const Map: React.FC<Props> = ({
+  startLat,
+  startLong,
+  endLat,
+  endLong,
+}) => {
+  const polylinePositions: [number, number][] = [
+    [startLat, startLong],
+    [endLat, endLong],
+  ];
   return (
     <MapContainer
-      center={[position[0], position[1]]}
-      zoom={13}
+      center={[startLat, startLong]}
+      zoom={5}
       scrollWheelZoom={false}
-      style={{ height: "300px", width: "300px" }}
+      style={{ height: "100dvh", width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[position[0], position[1]]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
+      <Marker position={[startLat, startLong]}>
+        <Popup>Starting Point</Popup>
       </Marker>
+      <Marker position={[endLat, endLong]}>
+        <Popup>Ending Point</Popup>
+      </Marker>
+      <Polyline
+        positions={polylinePositions}
+        pathOptions={{ color: "#23396B", dashArray: "10, 10" }}
+      />
     </MapContainer>
   );
 };

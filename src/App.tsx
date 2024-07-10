@@ -2,7 +2,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./pages/notFound";
 import { Home } from "./pages/home";
-
+import { Layout } from "./components/layout";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,11 +14,17 @@ function App() {
       path: "/404",
       element: <NotFound />,
     },
+
     {
       path: "/",
-      element: <Home />,
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
     },
-
   ]);
   return (
     <>
