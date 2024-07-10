@@ -1,9 +1,13 @@
-import styles from './index.module.css'
+import { Map } from "../map";
+import styles from "./index.module.css";
 
-type Props = {}
+type Props = {};
 
 export const Home = (_props: Props) => {
   return (
-    <div className={styles.Wrapper}>Home</div>
-  )
-}
+    <div className={styles.Wrapper}>
+      <Map />
+      dvhdb
+    </div>
+  );
+};
