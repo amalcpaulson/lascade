@@ -7,6 +7,7 @@ import {
   Ticksvg,
 } from "../../../assets/svg";
 import styles from "./styles.module.css";
+import { Routeupdate } from "./routeupdate";
 
 interface RouteSettingsProps {
   step: string;
@@ -14,6 +15,12 @@ interface RouteSettingsProps {
   clearData: () => void;
   startAddress: string;
   endAddress: string;
+}
+
+interface IntermediatePoint {
+  lat: number;
+  long: number;
+  address: string;
 }
 
 export const RouteSettings: React.FC<RouteSettingsProps> = ({
@@ -25,6 +32,10 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
 }) => {
   const [routeName, setRouteName] = useState("");
   const [prevStep, setPrevStep] = useState(step);
+  const [showRouteUpdate, setShowRouteUpdate] = useState(false);
+  const [intermediatePoints, setIntermediatePoints] = useState<
+    IntermediatePoint[]
+  >([]);
 
   useEffect(() => {
     setPrevStep(step);
@@ -43,10 +54,18 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
     return address.split(",")[0];
   };
 
+  const toggleRouteUpdate = () => {
+    setShowRouteUpdate(!showRouteUpdate);
+  };
+
+  const addIntermediatePoint = (point: IntermediatePoint) => {
+    setIntermediatePoints([...intermediatePoints, point]);
+  };
+
   return (
     <div
       className={styles.selectionsWrapper}
-      style={{ height: step === "five" ? "700px" : "" }}
+      style={{ height: step === "five" ? "700px" : "300px" }}
     >
       <div
         className={`${styles.one} ${
@@ -57,11 +76,11 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
           <button onClick={() => setStep("two")}>
             <ThreeDots />
           </button>
-          <div>
+          <div onClick={toggleRouteUpdate}>
             <h2>
               {formatAddress(startAddress)} - {formatAddress(endAddress)}
             </h2>
-            <p>2 Points</p>
+            <p>{2 + intermediatePoints.length} Points</p>
           </div>
           <button>+</button>
         </div>
@@ -187,6 +206,16 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
           </button>
         </div>
       </div>
+
+      {showRouteUpdate && (
+        <Routeupdate
+          closeRouteUpdate={toggleRouteUpdate}
+          startAddress={startAddress}
+          endAddress={endAddress}
+          intermediatePoints={intermediatePoints}
+          addIntermediatePoint={addIntermediatePoint}
+        />
+      )}
     </div>
   );
 };

@@ -119,3 +119,19 @@ export const Ticksvg = (_props: Props) => {
 };
 
 
+export const Dragger = (_props: Props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="44"
+      viewBox="0 0 22 44"
+      fill="none"
+    >
+      <rect x="3" y="18" width="16" height="2" fill="#D9D9D9" />
+      <rect x="3" y="23" width="16" height="2" fill="#D9D9D9" />
+    </svg>
+  );
+};
+
+

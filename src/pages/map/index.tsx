@@ -10,11 +10,17 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+interface IntermediatePoint {
+  lat: number;
+  long: number;
+}
+
 type Props = {
   startLat: number;
   startLong: number;
   endLat: number;
   endLong: number;
+  intermediatePoints?: IntermediatePoint[];
 };
 
 const SetViewOnChange: React.FC<Props> = ({
@@ -22,16 +28,20 @@ const SetViewOnChange: React.FC<Props> = ({
   startLong,
   endLat,
   endLong,
+  intermediatePoints = [],
 }) => {
   const map = useMap();
 
   useEffect(() => {
     const bounds = L.latLngBounds([
       [startLat, startLong],
+      ...intermediatePoints.map(
+        (point) => [point.lat, point.long] as [number, number]
+      ),
       [endLat, endLong],
     ]);
     map.fitBounds(bounds);
-  }, [startLat, startLong, endLat, endLong, map]);
+  }, [startLat, startLong, endLat, endLong, intermediatePoints, map]);
 
   return null;
 };
@@ -41,9 +51,13 @@ export const Map: React.FC<Props> = ({
   startLong,
   endLat,
   endLong,
+  intermediatePoints = [],
 }) => {
   const polylinePositions: [number, number][] = [
     [startLat, startLong],
+    ...intermediatePoints.map(
+      (point) => [point.lat, point.long] as [number, number]
+    ),
     [endLat, endLong],
   ];
 
@@ -62,6 +76,11 @@ export const Map: React.FC<Props> = ({
       <Marker position={[startLat, startLong]}>
         <Popup>Starting Point</Popup>
       </Marker>
+      {intermediatePoints.map((point, index) => (
+        <Marker key={index} position={[point.lat, point.long]}>
+          <Popup>Intermediate Point {index + 1}</Popup>
+        </Marker>
+      ))}
       <Marker position={[endLat, endLong]}>
         <Popup>Ending Point</Popup>
       </Marker>
@@ -74,6 +93,7 @@ export const Map: React.FC<Props> = ({
         startLong={startLong}
         endLat={endLat}
         endLong={endLong}
+        intermediatePoints={intermediatePoints}
       />
     </MapContainer>
   );
