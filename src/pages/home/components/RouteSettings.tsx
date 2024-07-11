@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, CloseBtn, ThreeDots } from "../../../assets/svg";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CloseBtn,
+  ThreeDots,
+  Ticksvg,
+} from "../../../assets/svg";
 import styles from "./styles.module.css";
 
 interface RouteSettingsProps {
@@ -38,7 +44,10 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
   };
 
   return (
-    <div className={styles.selectionsWrapper}>
+    <div
+      className={styles.selectionsWrapper}
+      style={{ height: step === "five" ? "700px" : "" }}
+    >
       <div
         className={`${styles.one} ${
           step === "one" ? styles.active : prevStep === "one" ? styles.exit : ""
@@ -145,21 +154,35 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
             : ""
         }`}
       >
-        <div>
-          <button onClick={() => setStep("two")}>←</button>
+        <div className={styles.top}>
+          <button onClick={() => setStep("two")}>
+            <ArrowLeft />
+          </button>
           <h2>Load route</h2>
         </div>
-        <div>
+        <div className={styles.bottom}>
           <button onClick={() => handleLoadRoute("Kochi - Los Angeles")}>
             Kochi - Los Angeles
+            <span>
+              <Ticksvg />
+            </span>
           </button>
           <button onClick={() => handleLoadRoute("Dubai trip")}>
             Dubai trip
+            <p></p>
           </button>
           <button onClick={() => handleLoadRoute("Some other route")}>
             Some other route
+            <p></p>
           </button>
-          <button onClick={() => console.log("Load the selected route")}>
+          <button
+            onClick={() => console.log("Load the selected route")}
+            style={{
+              backgroundColor: "#B97FFF",
+              color: "white",
+              justifyContent: "center",
+            }}
+          >
             Load
           </button>
         </div>

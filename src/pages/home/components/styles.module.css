@@ -3,8 +3,10 @@
   width: 100%;
   background-color: black;
   height: 300px;
+  max-width: 500px;
   min-height: fit-content;
   overflow-x: hidden; /* Ensure content doesn't overflow */
+  overflow-y: visible;
 }
 
 .one,
@@ -94,7 +96,8 @@
 
 .two .top,
 .four .top,
-.three .top {
+.three .top,
+.five .top {
   display: flex;
   width: 100%;
   gap: 15px;
@@ -103,7 +106,8 @@
 
 .two .top button,
 .four .top button,
-.three .top button {
+.three .top button,
+.five .top button {
   border-radius: 30px;
   background: #fff;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
@@ -162,4 +166,37 @@
   background: #b97fff;
   width: 100%;
   padding: 14px;
+}
+
+.five .bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.five .bottom button {
+  border-radius: 30px;
+  background: rgba(43, 44, 47, 0.8);
+  width: 100%;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.five .bottom button p {
+  border-radius: 30px;
+  border: 3px solid rgba(0, 0, 0, 0.4);
+    width: 30px;
+  height: 30px;
+}
+.five .bottom button span {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
