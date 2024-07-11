@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ArrowRight, ThreeDots } from "../../../assets/svg";
+import { ArrowLeft, ArrowRight, CloseBtn, ThreeDots } from "../../../assets/svg";
 import styles from "./styles.module.css";
 
 interface RouteSettingsProps {
@@ -57,7 +57,6 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
           <button>+</button>
         </div>
         <button onClick={() => console.log("Create video")}>
-          
           Create video <ArrowRight />
         </button>
       </div>
@@ -67,12 +66,19 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
           step === "two" ? styles.active : prevStep === "two" ? styles.exit : ""
         }`}
       >
-        <div>
-          <button onClick={() => setStep("one")}>✖</button>
+        <div className={styles.top}>
+          <button onClick={() => setStep("one")}>
+            <CloseBtn />
+          </button>
           <h2>Route settings</h2>
         </div>
-        <div>
-          <button onClick={() => setStep("four")}>Delete</button>
+        <div className={styles.bottom}>
+          <button
+            onClick={() => setStep("four")}
+            style={{ backgroundColor: "#EB4E4E", color: "black" }}
+          >
+            Delete
+          </button>
           <button onClick={() => setStep("three")}>Save</button>
           <button onClick={() => setStep("five")}>Load</button>
         </div>
@@ -87,11 +93,13 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
             : ""
         }`}
       >
-        <div>
-          <button onClick={() => setStep("two")}>←</button>
+        <div className={styles.top}>
+          <button onClick={() => setStep("two")}>
+            <ArrowLeft />
+          </button>
           <h2>Save route</h2>
         </div>
-        <div>
+        <div className={styles.bottom}>
           <input
             type="text"
             placeholder="Enter route name"
@@ -111,13 +119,20 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
             : ""
         }`}
       >
-        <div>
-          <button onClick={() => setStep("two")}>✖</button>
+        <div className={styles.top}>
+          <button onClick={() => setStep("two")}>
+            <CloseBtn />
+          </button>
           <h2>Delete route</h2>
         </div>
-        <div>
+        <div className={styles.bottom}>
           <h1>Are you sure?</h1>
-          <button onClick={clearData}>Delete</button>
+          <button
+            onClick={clearData}
+            style={{ backgroundColor: "#EB4E4E", color: "black" }}
+          >
+            Delete
+          </button>
         </div>
       </div>
 
