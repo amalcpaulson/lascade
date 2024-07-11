@@ -4,20 +4,7 @@ import { ArrowRight, Dragger, ThreeDots } from "../../../assets/svg";
 import styles from "./styles.module.css";
 import starting from "/starting.png";
 import ending from "/ending.png";
-
-interface IntermediatePoint {
-  lat: number;
-  long: number;
-  address: string;
-}
-
-interface RouteupdateProps {
-  closeRouteUpdate: () => void;
-  startAddress: string;
-  endAddress: string;
-  intermediatePoints: IntermediatePoint[];
-  addIntermediatePoint: (point: IntermediatePoint) => void;
-}
+import { RouteupdateProps } from "../../../types";
 
 export const Routeupdate: React.FC<RouteupdateProps> = ({
   closeRouteUpdate,

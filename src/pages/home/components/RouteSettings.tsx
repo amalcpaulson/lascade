@@ -8,24 +8,7 @@ import {
 } from "../../../assets/svg";
 import styles from "./styles.module.css";
 import { Routeupdate } from "./routeupdate";
-
-interface RouteSettingsProps {
-  step: string;
-  setStep: (step: string) => void;
-  clearData: () => void;
-  startAddress: string;
-  endAddress: string;
-  intermediatePoints: IntermediatePoint[];
-  setIntermediatePoints: React.Dispatch<
-    React.SetStateAction<IntermediatePoint[]>
-  >;
-}
-
-interface IntermediatePoint {
-  lat: number;
-  long: number;
-  address: string;
-}
+import { IntermediatePoint, RouteSettingsProps } from "../../../types";
 
 export const RouteSettings: React.FC<RouteSettingsProps> = ({
   step,

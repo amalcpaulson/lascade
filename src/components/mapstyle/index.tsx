@@ -1,14 +1,26 @@
+import React from "react";
 import { Location } from "../layout/svg";
 import styles from "./index.module.css";
 import clasic from "./assets/classic.png";
 import blurprint from "./assets/blueprint.png";
 import night from "./assets/night.png";
 
-type MapStyleProps = {
-  closeMapStyle: () => void;
+const mapStyles = {
+  classic: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  blueprint: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+  night:
+    "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
 };
 
-export const MapStyle: React.FC<MapStyleProps> = ({ closeMapStyle }) => {
+type MapStyleProps = {
+  closeMapStyle: () => void;
+  setMapStyle: (style: string) => void;
+};
+
+export const MapStyle: React.FC<MapStyleProps> = ({
+  closeMapStyle,
+  setMapStyle,
+}) => {
   return (
     <div className={styles.Wrapper}>
       <span onClick={closeMapStyle}></span>
@@ -17,18 +29,16 @@ export const MapStyle: React.FC<MapStyleProps> = ({ closeMapStyle }) => {
           <Location colors="white" /> Map Style
         </h2>
         <div className={styles.sty}>
-          <button>
-            <img src={clasic} alt="" />
+          <button onClick={() => setMapStyle(mapStyles.classic)}>
+            <img src={clasic} alt="Classic" />
             <p>Classic</p>
           </button>
-          <button>
-            {" "}
-            <img src={blurprint} alt="" />
+          <button onClick={() => setMapStyle(mapStyles.blueprint)}>
+            <img src={blurprint} alt="Blueprint" />
             <p>Blueprint</p>
           </button>
-          <button>
-            {" "}
-            <img src={night} alt="" />
+          <button onClick={() => setMapStyle(mapStyles.night)}>
+            <img src={night} alt="Night" />
             <p>Night</p>
           </button>
         </div>
@@ -49,8 +59,8 @@ export const MapStyle: React.FC<MapStyleProps> = ({ closeMapStyle }) => {
                 fill="white"
               />
             </svg>
-          </button>{" "}
-          <button>Apply</button>
+          </button>
+          <button onClick={closeMapStyle}>Apply</button>
         </div>
       </div>
     </div>
