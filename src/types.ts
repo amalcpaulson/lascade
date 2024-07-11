@@ -2,7 +2,11 @@ export interface Coordinates {
   lat: number;
   lng: number;
 }
-
+export interface Point {
+  lat: number;
+  long: number;
+  address: string;
+}
 export interface IntermediatePoint {
   lat: number;
   long: number;

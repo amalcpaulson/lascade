@@ -68,7 +68,7 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
             </h2>
             <p>{2 + intermediatePoints.length} Points</p>
           </div>
-          <button>+</button>
+          <button onClick={toggleRouteUpdate}>+</button>
         </div>
         <button onClick={() => console.log("Create video")}>
           Create video <ArrowRight />
