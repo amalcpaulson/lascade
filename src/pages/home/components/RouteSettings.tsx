@@ -61,7 +61,7 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
   const addIntermediatePoint = (point: IntermediatePoint) => {
     setIntermediatePoints([...intermediatePoints, point]);
   };
-
+  console.log("inter", intermediatePoints);
   return (
     <div
       className={styles.selectionsWrapper}

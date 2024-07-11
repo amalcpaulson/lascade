@@ -268,4 +268,9 @@
 
 .Container > div button {
   background-color: transparent;
+  cursor: grab;
+}
+
+.Container > div button:active{
+    cursor: grabbing;
 }

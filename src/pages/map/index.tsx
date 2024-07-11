@@ -61,6 +61,8 @@ export const Map: React.FC<Props> = ({
     [endLat, endLong],
   ];
 
+  console.log(intermediatePoints)
+
   return (
     <MapContainer
       center={[startLat, startLong]}
@@ -73,6 +75,7 @@ export const Map: React.FC<Props> = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      
       <Marker position={[startLat, startLong]}>
         <Popup>Starting Point</Popup>
       </Marker>
