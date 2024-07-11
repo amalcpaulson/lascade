@@ -21,6 +21,7 @@ type Props = {
   endLat: number;
   endLong: number;
   intermediatePoints?: IntermediatePoint[];
+  mapStyle: string;
 };
 
 // Define custom icons
@@ -60,6 +61,7 @@ export const Map: React.FC<Props> = ({
   endLat,
   endLong,
   intermediatePoints = [],
+  mapStyle,
 }) => {
   const polylinePositions: [number, number][] = [
     [startLat, startLong],
@@ -79,7 +81,7 @@ export const Map: React.FC<Props> = ({
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={mapStyle}
       />
 
       <Marker position={[startLat, startLong]} icon={customIcon}>
@@ -107,6 +109,7 @@ export const Map: React.FC<Props> = ({
         endLat={endLat}
         endLong={endLong}
         intermediatePoints={intermediatePoints}
+        mapStyle={""}
       />
     </MapContainer>
   );

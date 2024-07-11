@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Map } from "../map";
 import styles from "./index.module.css";
 import axios from "axios";
-
 import landing from "./assets/landing.png";
 import { ArrowRight } from "../../assets/svg";
 import { Popup } from "./components/Popup";
 import { RouteSettings } from "./components/RouteSettings";
+import { useOutletContext } from "react-router-dom";
 
 type Props = {};
 
@@ -42,6 +42,7 @@ export const Home: React.FC<Props> = (_props) => {
   const [intermediatePoints, setIntermediatePoints] = useState<
     IntermediatePoint[]
   >([]);
+  const { mapStyle } = useOutletContext<{ mapStyle: string }>(); // Get map style from context
 
   const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
 
@@ -163,6 +164,7 @@ export const Home: React.FC<Props> = (_props) => {
         endLat={endCoords?.lat ?? 67}
         endLong={endCoords?.lng ?? -5}
         intermediatePoints={intermediatePoints}
+        mapStyle={mapStyle} // Use map style from context
       />
 
       {!startCoords?.lat && !endCoords?.lat && (
