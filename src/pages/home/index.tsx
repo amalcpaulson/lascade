@@ -165,7 +165,13 @@ export const Home: React.FC<Props> = (_props) => {
         </div>
       )}
       {startCoords?.lat && endCoords?.lat && (
-        <RouteSettings step={step} setStep={setStep} clearData={clearData} />
+        <RouteSettings
+          step={step}
+          setStep={setStep}
+          clearData={clearData}
+          startAddress={startAddress}
+          endAddress={endAddress}
+        />
       )}
       <Popup
         showPopup={showPopup}

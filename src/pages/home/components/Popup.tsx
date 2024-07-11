@@ -119,6 +119,11 @@ export const Popup: React.FC<PopupProps> = ({
             ))}
           </div>
         )}
+        {startAddress && endAddress && (
+          <button onClick={togglePopup} className={styles.done}>
+            Done
+          </button>
+        )}
       </div>
     </div>
   );

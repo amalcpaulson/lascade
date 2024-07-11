@@ -1,0 +1,93 @@
+.selectionsWrapper {
+  position: relative;
+  width: 100%;
+  background-color: black;
+  height: 300px;
+  min-height: fit-content;
+  overflow-x: hidden; /* Ensure content doesn't overflow */
+}
+
+.one,
+.two,
+.three,
+.four,
+.five {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%; /* Start off-screen to the right */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: left 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0; /* Start invisible */
+  padding: 30px;
+  gap: 20px;
+}
+
+.one.active,
+.two.active,
+.three.active,
+.four.active,
+.five.active {
+  left: 0; /* Move into view */
+  opacity: 1; /* Make visible */
+}
+
+.one.exit,
+.two.exit,
+.three.exit,
+.four.exit,
+.five.exit {
+  left: -100%; /* Move off-screen to the left */
+  opacity: 0; /* Make invisible */
+}
+
+.one .top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.one .top > button {
+  border-radius: 30px;
+  background: rgba(43, 44, 47, 0.7);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  color: white;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.selectionsWrapper h2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+.selectionsWrapper p {
+  font-size: 13px;
+  color: #ffffff80;
+}
+
+.one > button {
+  border-radius: 30px;
+  background: #fff;
+  display: flex;
+  width: 100%;
+  height: 60px;
+  padding: 20px 22px;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  font-weight: 600;
+  font-size: 18px;
+}

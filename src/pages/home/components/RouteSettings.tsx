@@ -1,97 +1,154 @@
-import React from "react";
-import { ArrowRight } from "../../../assets/svg";
+import React, { useState, useEffect } from "react";
+import { ArrowRight, ThreeDots } from "../../../assets/svg";
+import styles from "./styles.module.css";
 
 interface RouteSettingsProps {
   step: string;
   setStep: (step: string) => void;
   clearData: () => void;
+  startAddress: string;
+  endAddress: string;
 }
 
 export const RouteSettings: React.FC<RouteSettingsProps> = ({
   step,
   setStep,
   clearData,
+  startAddress,
+  endAddress,
 }) => {
+  const [routeName, setRouteName] = useState("");
+  const [prevStep, setPrevStep] = useState(step);
+
+  useEffect(() => {
+    setPrevStep(step);
+  }, [step]);
+
   const handleLoadRoute = (route: string) => {
-    // Implement loading the selected route from local storage
     console.log(`Loading route: ${route}`);
   };
 
+  const handleSaveRoute = () => {
+    console.log(`Saving route: ${routeName}`);
+    // Save route logic here
+  };
+
+  const formatAddress = (address: string) => {
+    return address.split(",")[0];
+  };
+
   return (
-    <div className="selectionsWrapper">
-      {step === "one" && (
-        <div className="one">
+    <div className={styles.selectionsWrapper}>
+      <div
+        className={`${styles.one} ${
+          step === "one" ? styles.active : prevStep === "one" ? styles.exit : ""
+        }`}
+      >
+        <div className={styles.top}>
+          <button onClick={() => setStep("two")}>
+            <ThreeDots />
+          </button>
           <div>
-            <button onClick={() => setStep("two")}>...</button>
             <h2>
-              {/* starting location name */}-{/* end location name */}
+              {formatAddress(startAddress)} - {formatAddress(endAddress)}
             </h2>
-            <button>+</button>
+            <p>2 Points</p>
           </div>
-          <button onClick={() => console.log("Create video")}>
-            Create video <ArrowRight />
+          <button>+</button>
+        </div>
+        <button onClick={() => console.log("Create video")}>
+          
+          Create video <ArrowRight />
+        </button>
+      </div>
+
+      <div
+        className={`${styles.two} ${
+          step === "two" ? styles.active : prevStep === "two" ? styles.exit : ""
+        }`}
+      >
+        <div>
+          <button onClick={() => setStep("one")}>✖</button>
+          <h2>Route settings</h2>
+        </div>
+        <div>
+          <button onClick={() => setStep("four")}>Delete</button>
+          <button onClick={() => setStep("three")}>Save</button>
+          <button onClick={() => setStep("five")}>Load</button>
+        </div>
+      </div>
+
+      <div
+        className={`${styles.three} ${
+          step === "three"
+            ? styles.active
+            : prevStep === "three"
+            ? styles.exit
+            : ""
+        }`}
+      >
+        <div>
+          <button onClick={() => setStep("two")}>←</button>
+          <h2>Save route</h2>
+        </div>
+        <div>
+          <input
+            type="text"
+            placeholder="Enter route name"
+            value={routeName}
+            onChange={(e) => setRouteName(e.target.value)}
+          />
+          <button onClick={handleSaveRoute}>Save</button>
+        </div>
+      </div>
+
+      <div
+        className={`${styles.four} ${
+          step === "four"
+            ? styles.active
+            : prevStep === "four"
+            ? styles.exit
+            : ""
+        }`}
+      >
+        <div>
+          <button onClick={() => setStep("two")}>✖</button>
+          <h2>Delete route</h2>
+        </div>
+        <div>
+          <h1>Are you sure?</h1>
+          <button onClick={clearData}>Delete</button>
+        </div>
+      </div>
+
+      <div
+        className={`${styles.five} ${
+          step === "five"
+            ? styles.active
+            : prevStep === "five"
+            ? styles.exit
+            : ""
+        }`}
+      >
+        <div>
+          <button onClick={() => setStep("two")}>←</button>
+          <h2>Load route</h2>
+        </div>
+        <div>
+          <button onClick={() => handleLoadRoute("Kochi - Los Angeles")}>
+            Kochi - Los Angeles
+          </button>
+          <button onClick={() => handleLoadRoute("Dubai trip")}>
+            Dubai trip
+          </button>
+          <button onClick={() => handleLoadRoute("Some other route")}>
+            Some other route
+          </button>
+          <button onClick={() => console.log("Load the selected route")}>
+            Load
           </button>
         </div>
-      )}
-      {step === "two" && (
-        <div className="two">
-          <div>
-            <button onClick={() => setStep("one")}>✖</button>
-            <h2>Route settings</h2>
-          </div>
-          <div>
-            <button onClick={() => setStep("four")}>Delete</button>
-            <button onClick={() => setStep("three")}>Save</button>
-            <button onClick={() => setStep("five")}>Load</button>
-          </div>
-        </div>
-      )}
-      {step === "three" && (
-        <div className="three">
-          <div>
-            <button onClick={() => setStep("two")}>←</button>
-            <h2>Save route</h2>
-          </div>
-          <div>
-            <input type="text" placeholder="Enter route name" />
-            <button onClick={() => console.log("Save route")}>Save</button>
-          </div>
-        </div>
-      )}
-      {step === "four" && (
-        <div className="four">
-          <div>
-            <button onClick={() => setStep("two")}>✖</button>
-            <h2>Delete route</h2>
-          </div>
-          <div>
-            <h1>Are you sure?</h1>
-            <button onClick={clearData}>Delete</button>
-          </div>
-        </div>
-      )}
-      {step === "five" && (
-        <div className="five">
-          <div>
-            <button onClick={() => setStep("two")}>←</button>
-            <h2>Load route</h2>
-          </div>
-          <div>
-            <button onClick={() => handleLoadRoute("Kochi - Los Angeles")}>
-              Kochi - Los Angeles
-            </button>
-            <button onClick={() => handleLoadRoute("Dubai trip")}>
-              Dubai trip
-            </button>
-            <button onClick={() => handleLoadRoute("Some other route")}>
-              Some other route
-            </button>
-            <button onClick={() => console.log("Load the selected route")}>
-              Load
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
