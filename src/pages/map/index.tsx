@@ -23,6 +23,14 @@ type Props = {
   intermediatePoints?: IntermediatePoint[];
 };
 
+// Define custom icons
+const customIcon = L.icon({
+  iconUrl: "/starting.png", // Replace with the path to your custom icon
+  iconSize: [32, 32], // Size of the icon
+  iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+  popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
+});
+
 const SetViewOnChange: React.FC<Props> = ({
   startLat,
   startLong,
@@ -61,8 +69,6 @@ export const Map: React.FC<Props> = ({
     [endLat, endLong],
   ];
 
-  console.log(intermediatePoints)
-
   return (
     <MapContainer
       center={[startLat, startLong]}
@@ -75,16 +81,20 @@ export const Map: React.FC<Props> = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      
-      <Marker position={[startLat, startLong]}>
+
+      <Marker position={[startLat, startLong]} icon={customIcon}>
         <Popup>Starting Point</Popup>
       </Marker>
       {intermediatePoints.map((point, index) => (
-        <Marker key={index} position={[point.lat, point.long]}>
+        <Marker
+          key={index}
+          position={[point.lat, point.long]}
+          icon={customIcon}
+        >
           <Popup>Intermediate Point {index + 1}</Popup>
         </Marker>
       ))}
-      <Marker position={[endLat, endLong]}>
+      <Marker position={[endLat, endLong]} icon={customIcon}>
         <Popup>Ending Point</Popup>
       </Marker>
       <Polyline

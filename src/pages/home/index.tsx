@@ -15,6 +15,13 @@ interface LocationData {
   endAddress: string;
   startCoords: { lat: number; lng: number } | null;
   endCoords: { lat: number; lng: number } | null;
+  intermediatePoints: IntermediatePoint[];
+}
+
+interface IntermediatePoint {
+  lat: number;
+  long: number;
+  address: string;
 }
 
 export const Home: React.FC<Props> = (_props) => {
@@ -32,12 +39,15 @@ export const Home: React.FC<Props> = (_props) => {
   const [startSuggestions, setStartSuggestions] = useState<string[]>([]);
   const [endSuggestions, setEndSuggestions] = useState<string[]>([]);
   const [step, setStep] = useState("one");
+  const [intermediatePoints, setIntermediatePoints] = useState<
+    IntermediatePoint[]
+  >([]);
 
   const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
 
   useEffect(() => {
     saveDataToLocalStorage();
-  }, [startCoords, endCoords]);
+  }, [startCoords, endCoords, intermediatePoints]);
 
   const saveDataToLocalStorage = () => {
     const data: LocationData = {
@@ -45,6 +55,7 @@ export const Home: React.FC<Props> = (_props) => {
       endAddress,
       startCoords,
       endCoords,
+      intermediatePoints,
     };
 
     const savedData = JSON.parse(localStorage.getItem("locationData") || "[]");
@@ -58,6 +69,7 @@ export const Home: React.FC<Props> = (_props) => {
     setEndAddress("");
     setStartCoords(null);
     setEndCoords(null);
+    setIntermediatePoints([]);
     setStep("one");
   };
 
@@ -150,6 +162,7 @@ export const Home: React.FC<Props> = (_props) => {
         startLong={startCoords?.lng ?? -5}
         endLat={endCoords?.lat ?? 67}
         endLong={endCoords?.lng ?? -5}
+        intermediatePoints={intermediatePoints}
       />
 
       {!startCoords?.lat && !endCoords?.lat && (
@@ -171,6 +184,8 @@ export const Home: React.FC<Props> = (_props) => {
           clearData={clearData}
           startAddress={startAddress}
           endAddress={endAddress}
+          intermediatePoints={intermediatePoints}
+          setIntermediatePoints={setIntermediatePoints}
         />
       )}
       <Popup

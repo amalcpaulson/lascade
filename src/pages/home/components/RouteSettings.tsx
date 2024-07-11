@@ -15,6 +15,10 @@ interface RouteSettingsProps {
   clearData: () => void;
   startAddress: string;
   endAddress: string;
+  intermediatePoints: IntermediatePoint[];
+  setIntermediatePoints: React.Dispatch<
+    React.SetStateAction<IntermediatePoint[]>
+  >;
 }
 
 interface IntermediatePoint {
@@ -29,13 +33,12 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
   clearData,
   startAddress,
   endAddress,
+  intermediatePoints,
+  setIntermediatePoints,
 }) => {
   const [routeName, setRouteName] = useState("");
   const [prevStep, setPrevStep] = useState(step);
   const [showRouteUpdate, setShowRouteUpdate] = useState(false);
-  const [intermediatePoints, setIntermediatePoints] = useState<
-    IntermediatePoint[]
-  >([]);
 
   useEffect(() => {
     setPrevStep(step);
@@ -61,7 +64,7 @@ export const RouteSettings: React.FC<RouteSettingsProps> = ({
   const addIntermediatePoint = (point: IntermediatePoint) => {
     setIntermediatePoints([...intermediatePoints, point]);
   };
-  console.log("inter", intermediatePoints);
+
   return (
     <div
       className={styles.selectionsWrapper}
